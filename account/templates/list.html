@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+{% render_table table %}
+
+<form action='#' method='post'>
+	{% csrf_token %} 
+	<a class='btn btn-info btn-sm' href=new>NEW</input>
+</form>
+{% endblock  %}

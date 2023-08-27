@@ -1,0 +1,5 @@
+<form action='#' method='post'>
+	{% csrf_token %} 
+	<a class='btn btn-info btn-sm' href=edit/{{ record.id }}>EDIT</input>
+	<a class='btn btn-info btn-sm' href=delete/{{ record.id }}>DELETE</input>
+</form>
