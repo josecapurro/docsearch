@@ -21,7 +21,7 @@ from django.conf.urls import include
 
 _patterns = [
     path('admin/', admin.site.urls),
-    path('search', include('search.urls')),
+    path('search/', include('search.urls')),
     path('account/', include('account.urls')),
     path('customer/', include('customer.urls')),
     path('searchbackend/', include('searchbackend.urls')),

@@ -1,5 +1,6 @@
 from opensearchpy import OpenSearch
 import boto3
+import pprint
 
 def docsearch():
     opensearch_host = '10.0.77.10'
@@ -40,7 +41,38 @@ def docsearch():
         ordresp.append(i['_source'])
     return(ordresp)
 
-def add_file(client_id, file_id, file_name, file_to_upload):
+def doccreate():
+    opensearch_host = '10.0.77.10'
+    opensearch_port = 9200
+    opensearch_auth = ('admin', 'admin')
+    client_id = 'testclientid'
+    opensearch_index = client_id
+
+    osc = OpenSearch(
+        hosts = [{'host': opensearch_host, 'port': opensearch_port}],
+        http_compress = True,
+        http_auth = opensearch_auth,
+        use_ssl = True,
+        verify_certs = False,
+        ssl_assert_hostname = False,
+        ssl_show_warn = False
+    )
+
+    document = {
+            'bucket': client_id,
+            'key': file_name
+    }
+    id = file_id
+
+    response = osc.index(
+            index = opensearch_index, 
+            body = document,
+            id = id, 
+            refresh = True
+    )
+    return(response)
+
+def file_upload(file):
     storage_url = 'http://10.0.77.10:9000'
     storage_class = 's3'
     client_id = 'mytestbucket'
@@ -53,13 +85,17 @@ def add_file(client_id, file_id, file_name, file_to_upload):
     client_doc_url = ''
     storage_bucket = client_id
     opensearch_index = client_id
+    file_name = 'aaaaaaa'
+
+    pprint.pprint(file)
+    pprint.pprint(file.temporary_file_path())
 
     s3c = boto3.client(storage_class, 
         endpoint_url=storage_url, 
         aws_access_key_id=client_access_key, 
         aws_secret_access_key=client_secret_key)
 
-    s3c.upload_file(file_to_upload, 
+    s3c.upload_file(file.temporary_file_path(), 
         storage_bucket, 
         file_name)
 

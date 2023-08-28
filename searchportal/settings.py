@@ -154,3 +154,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = '/search'
+FILE_UPLOAD_HANDLERS = [
+        "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
