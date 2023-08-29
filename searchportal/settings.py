@@ -157,3 +157,38 @@ LOGIN_REDIRECT_URL = '/search'
 FILE_UPLOAD_HANDLERS = [
         "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format' : "{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            'style': "{",
+            'datefmt' : "%Y-%b-%d_%H:%M:%S"
+        },
+    },
+    'handlers': {
+        'file': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logfile',
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'verbose',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+        },
+    }
+}
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
