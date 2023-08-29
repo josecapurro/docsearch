@@ -21,13 +21,20 @@ __all__ = (
 
 
 class SearchView(LoginRequiredMixin, View):
-    data = Search()
-    template_name = 'search.html'
-    table = SearchTable(data)
 
     def get(self, request):
-        RequestConfig(request).configure(self.table)
-        return render(request, self.template_name, {'table': self.table, 'data': self.data, })
+        template_name = 'search.html'
+        #RequestConfig(request).configure(self.table)
+        #return render(request, self.template_name, {'table': self.table, 'data': self.data, })
+        return render(request, template_name)
+
+    def post(self, request):
+        data = Search()
+        table = SearchTable(data)
+        template_name = 'search_result.html'
+        success_url = reverse_lazy('search')
+        RequestConfig(request).configure(table)
+        return render(request, template_name, {'table': table, 'data': data, })
 
 class SearchUploadView(LoginRequiredMixin, View):
     form_class = UploadFileForm

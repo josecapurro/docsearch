@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'customer',
     'account',
     'utils',
+    'logmanager',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
@@ -107,6 +108,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'logmanager': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db_logmanager.sqlite3',
     }
 }
 
@@ -182,10 +187,17 @@ LOGGING = {
             'class':'logging.StreamHandler',
             'formatter': 'verbose'
         },
+        'logmanager': {
+            'level':'DEBUG',
+            'class':'logmanager.handlers.DBHandler',
+            'model':'logger.models.GeneralLog',
+            'expiry':'86400',
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'logmanager'],
             'level': 'DEBUG',
         },
     }
